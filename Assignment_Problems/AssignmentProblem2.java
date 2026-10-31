@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class AssignmentProblem2 {
 
-    public static int prizeTable(int[] marks) {
+    static int prizeTable(int[] marks) {
         int swaps = 0;
 
         for (int i = 0; i < marks.length - 1; i++) {
@@ -26,25 +26,19 @@ public class AssignmentProblem2 {
     }
 
     public static void main(String[] args) {
-        int[] sample1 = {45, 90, 60, 75};
-        int swaps1 = prizeTable(sample1);
-
-        System.out.println("Sample Input 1: "
-                + Arrays.toString(sample1)
+        int[] marks1 = {45, 90, 60, 75};
+        int swaps1 = prizeTable(marks1);
+        System.out.println(Arrays.toString(marks1)
                 + " swaps = " + swaps1);
 
-        int[] sample2 = {80, 70, 60};
-        int swaps2 = prizeTable(sample2);
-
-        System.out.println("Sample Input 2: "
-                + Arrays.toString(sample2)
+        int[] marks2 = {80, 70, 60};
+        int swaps2 = prizeTable(marks2);
+        System.out.println(Arrays.toString(marks2)
                 + " swaps = " + swaps2);
 
-        int[] custom = {25, 95, 40, 85, 10};
-        int customSwaps = prizeTable(custom);
-
-        System.out.println("Custom Input: "
-                + Arrays.toString(custom)
-                + " swaps = " + customSwaps);
+        int[] marks3 = {30, 95, 40, 85};
+        int swaps3 = prizeTable(marks3);
+        System.out.println(Arrays.toString(marks3)
+                + " swaps = " + swaps3);
     }
 }

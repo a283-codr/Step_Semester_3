@@ -1,47 +1,23 @@
 public class AssignmentProblem4 {
 
-    static int lowerBound(int[] scores, int target) {
-        int left = 0;
-        int right = scores.length;
-
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-
-            if (scores[mid] < target) {
-                left = mid + 1;
-            } else {
-                right = mid;
+    static int firstBreak(int[] tokens) {
+        for (int i = 1; i < tokens.length; i++) {
+            if (tokens[i] < tokens[i - 1]) {
+                return i;
             }
         }
 
-        return left;
-    }
-
-    static int upperBound(int[] scores, int target) {
-        int left = 0;
-        int right = scores.length;
-
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-
-            if (scores[mid] <= target) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-
-        return left;
-    }
-
-    static int countInBand(int[] scores, int low, int high) {
-        return upperBound(scores, high) - lowerBound(scores, low);
+        return -1;
     }
 
     public static void main(String[] args) {
-        int[] scores = {35, 42, 42, 50, 58, 58, 58, 63, 71, 88};
+        int[] tokens1 = {3, 5, 5, 8, 6, 9};
+        System.out.println(firstBreak(tokens1));
 
-        System.out.println(countInBand(scores, 42, 58));
-        System.out.println(countInBand(scores, 90, 100));
+        int[] tokens2 = {1, 2, 2, 7};
+        System.out.println(firstBreak(tokens2));
+
+        int[] tokens3 = {9, 7, 8};
+        System.out.println(firstBreak(tokens3));
     }
 }
