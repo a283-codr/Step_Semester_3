@@ -2,23 +2,34 @@ import java.util.Arrays;
 
 public class AssignmentProblem3 {
 
-    static String[] rotateRoster(String[] names, long k) {
-        int n = names.length;
-        int shift = (int) (k % n);
-        String[] rotated = new String[n];
+    static void shelf(int[] books) {
+        for (int i = 1; i < books.length; i++) {
+            int key = books[i];
+            int j = i - 1;
 
-        for (int i = 0; i < n; i++) {
-            rotated[(i + shift) % n] = names[i];
+            while (j >= 0 && books[j] > key) {
+                books[j + 1] = books[j];
+                j--;
+            }
+
+            books[j + 1] = key;
+
+            System.out.println("After placing " + key + ": "
+                    + Arrays.toString(books));
         }
-
-        return rotated;
     }
 
     public static void main(String[] args) {
-        String[] names1 = {"A", "B", "C", "D", "E"};
-        System.out.println(Arrays.toString(rotateRoster(names1, 2)));
+        int[] books1 = {30, 10, 40, 20};
 
-        String[] names2 = {"A", "B", "C", "D", "E"};
-        System.out.println(Arrays.toString(rotateRoster(names2, 7)));
+        System.out.println("Sample Input: [30, 10, 40, 20]");
+        shelf(books1);
+
+        System.out.println();
+
+        int[] books2 = {5, 3, 8, 1};
+
+        System.out.println("Custom Input: [5, 3, 8, 1]");
+        shelf(books2);
     }
 }
