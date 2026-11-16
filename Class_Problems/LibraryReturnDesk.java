@@ -1,79 +1,73 @@
 import java.util.Scanner;
 
 public class LibraryReturnDesk {
-
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("RA2511026011337");
-
         String[] pile = new String[3];
-        String[] queue = new String[3];
+        String[] line = new String[3];
 
         int top = -1;
         int front = 0;
         int rear = 0;
         int size = 0;
 
-        int commands = sc.nextInt();
+        StringBuilder commands = new StringBuilder();
 
-        for (int i = 0; i < commands; i++) {
+        while (sc.hasNextLine()) {
+            commands.append(sc.nextLine()).append(",");
+        }
 
-            String command = sc.next().replace(",", "").toUpperCase();
+        String[] allCommands = commands.toString().split(",");
 
-            if (command.equals("RETURN")) {
+        for (String command : allCommands) {
+            command = command.trim();
 
-                String book = sc.next().replace(",", "");
+            if (command.isEmpty()) continue;
 
+            String[] parts = command.split("\\s+", 2);
+            String action = parts[0].toUpperCase();
+
+            if (action.equals("RETURN")) {
                 if (top == 2) {
-                    System.out.println(book + " rejected: pile is full");
+                    System.out.println(parts[1] + " rejected: pile is full");
                 } else {
-                    pile[++top] = book;
-                    System.out.println(book + " placed on pile");
+                    pile[++top] = parts[1];
+                    System.out.println(parts[1] + " placed on pile");
                 }
-
-            } else if (command.equals("SHELVE")) {
-
+            } 
+            else if (action.equals("SHELVE")) {
                 if (top == -1) {
                     System.out.println("pile is empty");
                 } else {
                     System.out.println("shelved " + pile[top]);
-                    pile[top] = null;
-                    top--;
+                    pile[top--] = null;
                 }
-
-            } else if (command.equals("WAIT")) {
-
-                String student = sc.next().replace(",", "");
-
+            } 
+            else if (action.equals("WAIT")) {
                 if (size == 3) {
-                    System.out.println(student + " rejected: line is full");
+                    System.out.println(parts[1] + " rejected: line is full");
                 } else {
-                    queue[rear] = student;
+                    line[rear] = parts[1];
                     rear = (rear + 1) % 3;
                     size++;
-
-                    System.out.println(student + " joined the line");
+                    System.out.println(parts[1] + " joined the line");
                 }
-
-            } else if (command.equals("SERVE")) {
-
+            } 
+            else if (action.equals("SERVE")) {
                 if (size == 0) {
                     System.out.println("no one waiting");
                 } else {
-                    System.out.println("served " + queue[front]);
-
-                    queue[front] = null;
+                    System.out.println("served " + line[front]);
+                    line[front] = null;
                     front = (front + 1) % 3;
                     size--;
                 }
+            } 
+            else {
+                System.out.println("Invalid command: " + command);
             }
         }
-
-        // Stack operations: O(1)
-        // Circular queue operations: O(1)
-        // Total time for n commands: O(n)
 
         sc.close();
     }

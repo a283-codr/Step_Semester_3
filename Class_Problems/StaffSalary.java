@@ -1,78 +1,59 @@
 import java.util.Scanner;
 
 class Staff {
-    private String name;
-    private double baseSalary;
+    String name;
+    double baseSalary;
 
     Staff(String name, double baseSalary) {
         this.name = name;
         this.baseSalary = baseSalary;
     }
 
-    public double getBonus() {
+    double getBonus() {
         return 0;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public double getBaseSalary() {
-        return baseSalary;
-    }
-
-    public String getType() {
+    String getType() {
         return "Staff";
     }
 }
 
 class Teacher extends Staff {
-
-    Teacher(String name, double salary) {
-        super(name, salary);
+    Teacher(String name, double baseSalary) {
+        super(name, baseSalary);
     }
 
-    @Override
-    public double getBonus() {
+    double getBonus() {
         return 5000;
     }
 
-    @Override
-    public String getType() {
+    String getType() {
         return "Teacher";
     }
 }
 
 class LabAssistant extends Staff {
-
-    LabAssistant(String name, double salary) {
-        super(name, salary);
+    LabAssistant(String name, double baseSalary) {
+        super(name, baseSalary);
     }
 
-    @Override
-    public double getBonus() {
+    double getBonus() {
         return 2000;
     }
 
-    @Override
-    public String getType() {
+    String getType() {
         return "LabAssistant";
     }
 }
 
 public class StaffSalary {
-
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
-
-        System.out.println("RA2511026011337");
 
         int n = sc.nextInt();
         Staff[] staff = new Staff[n];
 
         for (int i = 0; i < n; i++) {
-
             String type = sc.next();
             String name = sc.next();
             double salary = sc.nextDouble();
@@ -88,26 +69,19 @@ public class StaffSalary {
 
         double grandTotal = 0;
 
-        for (int i = 0; i < n; i++) {
+        for (Staff s : staff) {
+            double bonus = s.getBonus();
+            double total = s.baseSalary + bonus;
 
-            double base = staff[i].getBaseSalary();
-            double bonus = staff[i].getBonus();
-            double total = base + bonus;
-
-            System.out.println(
-                staff[i].getName() + " (" + staff[i].getType()
-                + "): base " + base
-                + ", bonus " + bonus
-                + ", total " + total
-            );
+            System.out.println(s.name + " (" + s.getType() +
+                    "): base " + s.baseSalary +
+                    ", bonus " + bonus +
+                    ", total " + total);
 
             grandTotal += total;
         }
 
         System.out.println("Grand Total Salary: " + grandTotal);
-
-        // Time Complexity: O(n)
-
         sc.close();
     }
 }

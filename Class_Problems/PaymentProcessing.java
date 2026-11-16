@@ -2,84 +2,89 @@ import java.util.Scanner;
 
 interface PaymentMode {
     double processPayment(double amount);
+    double getFee(double amount);
+    String getMode();
 }
 
 class CashPayment implements PaymentMode {
-
     public double processPayment(double amount) {
         return amount;
+    }
+
+    public double getFee(double amount) {
+        return 0;
+    }
+
+    public String getMode() {
+        return "Cash";
     }
 }
 
 class CardPayment implements PaymentMode {
-
     public double processPayment(double amount) {
-        return Math.round(amount * 1.02 * 100) / 100.0;
+        return amount + getFee(amount);
+    }
+
+    public double getFee(double amount) {
+        return amount * 0.02;
+    }
+
+    public String getMode() {
+        return "Card";
     }
 }
 
 class UpiPayment implements PaymentMode {
-
     public double processPayment(double amount) {
         return amount;
+    }
+
+    public double getFee(double amount) {
+        return 0;
+    }
+
+    public String getMode() {
+        return "UPI";
     }
 }
 
 public class PaymentProcessing {
-
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("RA2511026011337");
-
         int n = sc.nextInt();
-
         PaymentMode[] payments = new PaymentMode[n];
-        String[] modes = new String[n];
         double[] amounts = new double[n];
 
         for (int i = 0; i < n; i++) {
-
             String mode = sc.next();
-            double amount = sc.nextDouble();
-
-            amounts[i] = amount;
+            amounts[i] = sc.nextDouble();
 
             if (mode.equalsIgnoreCase("Cash")) {
                 payments[i] = new CashPayment();
-                modes[i] = "Cash";
             } else if (mode.equalsIgnoreCase("Card")) {
                 payments[i] = new CardPayment();
-                modes[i] = "Card";
             } else {
                 payments[i] = new UpiPayment();
-                modes[i] = "UPI";
             }
         }
 
-        double grandTotal = 0;
+        double total = 0;
 
         for (int i = 0; i < n; i++) {
+            double amount = amounts[i];
+            double fee = payments[i].getFee(amount);
+            double processed = payments[i].processPayment(amount);
 
-            double processed = payments[i].processPayment(amounts[i]);
-            double fee = processed - amounts[i];
+            System.out.println(payments[i].getMode() +
+                    ": amount " + amount +
+                    ", fee " + fee +
+                    ", processed " + processed);
 
-            System.out.println(
-                modes[i] + ": amount " + amounts[i]
-                + ", fee " + fee
-                + ", processed " + processed
-            );
-
-            grandTotal += processed;
+            total += processed;
         }
 
-        System.out.println(
-            "Total Amount Processed: " + grandTotal
-        );
-
-        // Time Complexity: O(n)
-
+        System.out.println("Total Amount Processed: " + total);
         sc.close();
     }
 }
